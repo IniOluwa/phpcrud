@@ -93,11 +93,6 @@
                             <label for="inputPassword" class="col-lg-2 control-label">Password</label>
                             <div class="col-lg-10">
                                 <input type="password" class="form-control" id="inputPassword" placeholder="Password" maxlength="30" name="password" value="<?php htmlentities($password) ?>">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox"> Remember me.
-                                    </label>
-                                </div>
                             </div>
                         </div>
 
