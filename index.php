@@ -44,7 +44,12 @@
                     if (isset($the_selected_subject)) {
                         # code...
                         echo $the_selected_subject['menu_name'];
-                        $pages_set = get_all_pages($subject_id);
+                    }
+                ?></h3>
+                <div id="page-content"><?php
+                    if (isset($the_selected_subject)) {
+                        # code...
+                        $pages_set = get_all_pages($the_selected_subject['id']);
                         while ($page = mysqli_fetch_array($pages_set)) {
                             # code...
                             $page_menu_name = $page["menu_name"];
@@ -52,13 +57,12 @@
                             $page_id = $page["id"];
                             echo "<li>"; 
                             if ($page['subject_id'] == $the_selected_subject['id']) {
-                                echo $page_menu_name;
+                                echo $page_menu_name . "<br>";
+                                echo $page_content;
                             }
                             echo "</li>";
                         }
                     }
-                ?></h3>
-                <div id="page-content"><?php
 
                 ?></div>
             </div>
