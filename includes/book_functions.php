@@ -1,6 +1,8 @@
 <?php
     // File for basic functions
-
+    
+    //Function to format input properly prior to database entry
+    // Currently not being used
     function mysqli_prep( $value) {
         $magic_quotes_active = get_magic_quotes_gpc();
         $new_enough_php = function_exists("mysqli_real_escape_string");
@@ -19,6 +21,7 @@
         return $value;
     }
 
+    // Page redirection
     function redirect_to($location = NULL) {
         if ($location != NULL) {
             # code...
@@ -27,6 +30,7 @@
         }
     }
 
+    // Extra error check for queries
     function confirm_query($results) {
         global $connection;
         if (!$results) {
@@ -35,52 +39,52 @@
         }
     }
 
-    function get_all_subjects() {
+    // Get all books from database
+    function get_all_books() {
         global $connection;
-        $subject_query = "SELECT * 
-                        FROM subjects 
-                        ORDER BY position ASC";
-        $subjects_set = mysqli_query($connection, $subject_query);
-        confirm_query($subjects_set);
-        return $subjects_set;
+        $books_query = "SELECT * 
+                        FROM books
+                        ORDER BY id ASC";
+        $books_list = mysqli_query($connection, $books_query);
+        confirm_query($books_list);
+        return $books_list;
     }
 
-    function get_all_pages($subject_id) {
+    // Get all book pages from database
+    function get_all_pages($book_id) {
         global $connection;
         $pages_query = "SELECT * 
                         FROM pages 
-                        WHERE subject_id = {$subject_id} 
-                        ORDER BY position ASC";
+                        WHERE book_id = {$book_id} 
+                        ORDER BY page_number ASC";
         $pages_set = mysqli_query($connection, $pages_query);
         confirm_query($pages_set);
         return $pages_set;
     }
 
-    function get_subject_by_id($subject_id) {
+    // Get a book by its id from database
+    function get_book_by_id($book_id) {
         global $connection;
-        $query = "SELECT * FROM subjects WHERE id = {$subject_id} LIMIT 1";
-
+        $query = "SELECT * FROM books WHERE id = {$book_id} LIMIT 1";
 
         $results = mysqli_query($connection, $query);
         confirm_query($results);
-        // $subject = mysqli_fetch_array($results);
         // If no rows are returned, fetch_array will return false
-        if ($subject = mysqli_fetch_array($results)) {
+        if ($book = mysqli_fetch_array($results)) {
             # code...
-            return $subject;
+            return $book;
         } else {
             return NULL;
         }
     }
 
+    // Get a book page by its id from database
     function get_page_by_id($page_id) {
         global $connection;
         $query = "SELECT * FROM pages WHERE id = {$page_id} LIMIT 1";
 
-
         $results = mysqli_query($connection, $query);
         confirm_query($results);
-        // $page = mysqli_fetch_array($results);
         // If no rows are returned, fetch_array will return false
         if ($page = mysqli_fetch_array($results)) {
             # code...
@@ -90,65 +94,114 @@
         }
     }
 
+    // Get id of currently selected record
     function find_selected() {
-        global $selected_subject;
+        global $selected_book;
         global $selected_page;
-        global $the_selected_subject;
+        global $the_selected_book;
         global $the_selected_page;
-        if(isset($_GET['subj'])){
-            $selected_subject = $_GET['subj'];
-            $the_selected_subject = get_subject_by_id($selected_subject);
+        if(isset($_GET['book'])){
+            $selected_book = $_GET['book'];
+            $the_selected_book = get_book_by_id($selected_book);
             $selected_page = "";
         }elseif(isset($_GET['page'])){
             $selected_page = $_GET['page'];
             $the_selected_page = get_page_by_id($selected_page);
-            $selected_subject = "";
+            $selected_book = "";
         }else{
-            $selected_subject = "";
+            $selected_book = "";
             $selected_page = "";
         }
     }
 
-    function navigation($the_selected_subject, $the_selected_page) {
+    // Returning data records
+    function navigation($the_selected_book, $the_selected_page) {
         // Make database queries.
-        $subjects_set = get_all_subjects();
+        $books_list = get_all_books();
 
         // Use returned data.
-        while ($subject = mysqli_fetch_array($subjects_set)) {
+        while ($book = mysqli_fetch_array($books_list)) {
             # code...
-            $subject_menu = $subject["menu_name"];
-            $position = $subject["position"];
-            $subject_id = $subject["id"];
+            $book_id = $book["id"];
+            $book_title = $book["book_title"];
             echo "<li";
-            if ($subject_id == $the_selected_subject['id']) {
+            if ($book_id == $the_selected_book['id']) {
                 // echo "class=\"selected\""; 
             }
-            echo "><a href=\"edit-subject.php?subj=" . urlencode($subject_id) . "\">$subject_menu</a></li>";
+            echo "><a href=\"view_contents.php?book=" . urlencode($book_id) . "\"><span class=\"glyphicon glyphicon-book\"></span> $book_title</a></li>";
 
             // Make database queries.
-            $pages_set = get_all_pages($subject_id);
+            $pages_set = get_all_pages($book_id);
 
             // Use returned data.
             while ($page = mysqli_fetch_array($pages_set)) {
                 # code...
-                $page_menu_name = $page["menu_name"];
-                $page_content = $page["content"];
                 $page_id = $page["id"];
+                $page_title = $page["page_title"];
+                $page_content = $page["page_content"];
+                $page_number = $page["page_number"];
                 echo "<li";
                 if ($page_id == $the_selected_page['id']){
                     // echo "class=\"selected\""; 
                 }                                    
-                echo "><a href=\"content.php?page=" . urlencode($page_id) . "\">$page_menu_name</a></li>";
+                echo "><a href=\"view_contents.php?page=" . urlencode($page_id) . "\"><span class=\"glyphicon glyphicon-duplicate\"></span> $page_title</a></li>";
             }
        }
     }
 
+    function index_navigation($the_selected_book, $the_selected_page) {
+        // Make database queries.
+        $books_list = get_all_books();
+
+        // Use returned data.
+        while ($book = mysqli_fetch_array($books_list)) {
+            # code...
+            $book_id = $book["id"];
+            $book_title = $book["book_title"];
+            echo "<li";
+            if ($book_id == $the_selected_book['id']) {
+                // echo "class=\"selected\""; 
+            }
+            echo "><a href=\"index.php?book=" . urlencode($book_id) . "\"><span class=\"glyphicon glyphicon-book\"></span> $book_title</a></li>";
+
+            // Make database queries.
+            $pages_set = get_all_pages($book_id);
+
+            // Use returned data.
+            while ($page = mysqli_fetch_array($pages_set)) {
+                # code...
+                $page_id = $page["id"];
+                $page_title = $page["page_title"];
+                $page_content = $page["page_content"];
+                $page_number = $page["page_number"];
+                echo "<li";
+                if ($page_id == $the_selected_page['id']){
+                    // echo "class=\"selected\""; 
+                }                                    
+                echo "><a href=\"index.php?page=" . urlencode($page_id) . "\"><span class=\"glyphicon glyphicon-duplicate\"></span> $page_title</a></li>";
+            }
+       }
+    }
+
+    // Book Validation
+    function book_form_validation(){
+        $fields_with_length = array('book_title' => 30);
+        foreach ($fields_with_length as $fieldname => $maxlength) {
+            # code...
+            if (!isset($_POST[$fieldname]) || strlen(trim($_POST[$fieldname])) > $maxlength) {
+                # code...
+                $errors[] = $fieldname;
+            }
+        }
+    }
+
+    // Page Validation
     function form_validation() {
         $errors = array();
-        $required_fields = array('menu_name', 'position', 'visible');
+        $required_fields = array('page_title', 'page_title', 'page_content', 'page_number', 'book_id');
         foreach ($required_fields as $fieldname) {
             # code...
-            if (!isset($_POST[$fieldname])) {# || (empty($_POST[$fieldname]) && !is_int($_POST[$fieldname]))) {
+            if (!isset($_POST[$fieldname])) {
                 # code...
                 $errors[] = $fieldname;
             }
@@ -164,18 +217,24 @@
         }
     }
 
-    // function display_errors() {
-    //    form_validation();
-       // if (!empty(errors)) {
-       //     # code...
-       //      echo "Please review the folllowing fields: ";
-       //      foreach ($errors as $error) {
-       //          # code...
-       //          echo "> " . $error;
-       //      }
-       // }
-    // }
+    // Displaying errors
+    function display_errors() {
+       form_validation();
+       if (!empty(errors)) {
+           # code...
+            echo "Please review the folllowing fields: ";
+            // foreach ($errors as $error) {
+            //     # code...
+            //     echo "> " . $error;
+            // }
+            for ($iter=0; $iter <= count($errors); $iter++) { 
+                # code...
+                echo "> " . $errors[$iter];
+            }
+       }
+    }
 
+    // Authentication form validation
     function authentication_form_validation() {
         $errors = array();
         $required_fields = array('username', 'password');

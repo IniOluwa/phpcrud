@@ -17,9 +17,9 @@
         <header>
             <div class="navbar navbar-default navbar-fixed-top">
                 <div class="navbar-brand">PhpCrudApp - Content</div>
-<ul class="nav navbar navbar-nav navbar-right">
+                <ul class="nav navbar navbar-nav navbar-right">
                     <li><a href="logout.php" name="logout">Logout</a></li>
-                </ul
+                </ul>
             </div>
         </header>
         <section>

@@ -61,57 +61,56 @@
                     <div class="form-group">
                         <label for="" class="col-lg-2 control-label">Page title</label>
                         <div class="col-lg-10">
-                          <input type="text" class="form-control" name="menu_name" id="" placeholder="Page">
+                          <input type="text" class="form-control" name="page_title" id="" placeholder="Page">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="textArea" class="col-lg-2 control-label">Page content</label>
                         <div class="col-lg-10">
-                            <textarea class="form-control" rows="3" id="textArea" name="page_contents" placeholder="Page content"></textarea>
+                            <textarea class="form-control" rows="3" id="textArea" name="page_content" placeholder="Page content"></textarea>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="select" class="col-lg-2 control-label">Page number</label>
+                        <label for="" class="col-lg-2 control-label">Page number</label>
                         <div class="col-lg-10">
-                            <select class="form-control" name="position" id="select">
-                            <?php 
-                                // $num_of_subjects = mysqli_num_rows(get_all_subjects());
-                                // for ($count=1; $count <= $num_of_subjects+1 ; $count++) { 
-                                //     # code...
-                                //     echo "<option value=\"{$count}\">{$count}</option>";
-                                // }
-                            ?>
-                            </select>
+                            <input type="number" min="1" name="page_number">
                         </div>
                     </div>
                     
                     <div class="form-group">
-                        <label for="select" class="col-lg-2 control-label">Page's book</label>
-                        <div class="col-lg-10">
-                            <select class="form-control" name="position" id="select" name="page_book_id">
-                            <?php 
-                                // $num_of_subjects = mysqli_num_rows(get_all_subjects());
-                                // for ($count=1; $count <= $num_of_subjects+1 ; $count++) { 
-                                //     # code...
-                                //     echo "<option value=\"{$count}\">{$count}</option>";
-                                // }
-                            ?>
-                            </select>
+                        <label for="" class="col-lg-2 control-label">Page's book</label>
+                        <div class="col-xs-1">
+                            <input type="number" name="page_book_id" min="1" max="<?php $books = mysqli_fetch_array(get_all_books()); echo count($books)-1;?>">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div class="col-lg-10 col-lg-offset-2">
-                            <button type="reset" class="btn btn-default"><a href="content.php" />Cancel</a></button>
-                            <button type="submit" class="btn btn-primary">Add page</button>
+                            <button type="reset" class="btn btn-default"><a href="view_contents.php" />Cancel</a></button>
+                            <button type="submit" class="btn btn-primary">Add book</button>
                         </div>
                     </div>
                   </fieldset>
                 </form>
             </div>
+                <?php 
+                # code...
+                while ($books_list = mysqli_fetch_array(get_all_books())) {
+                    # code...
+                    if (count($books_list) == count($books)) {
+                        return $books;
+                    }
+                    $books[] = $books_list;
+                }
+                foreach ($books as $book) {
+                    # code...
+                    echo "id: " . $book['id'] . "title" . $book['book_title'];
+                }
+            ?>
         </section>
         <footer><?php include("../includes/footer.php"); ?></footer>
     </body>
 </html>
+ 

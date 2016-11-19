@@ -1,7 +1,7 @@
 <?php
-    require_once("includes/session.php");
-    require_once("includes/connection.php");
-    require_once("includes/book_functions.php");
+    require_once("../includes/session.php");
+    require_once("../includes/connection.php");
+    require_once("../includes/book_functions.php");
 ?>
 <?php confirm_logged_in(); ?>
 <?php
