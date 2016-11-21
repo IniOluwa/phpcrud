@@ -27,7 +27,6 @@
                         redirect_to("login.php");
                     } else {
                         echo "<pre>User Creation Failed.</pre>";
-                        echo "<pre>" . var_dump($_POST) . "</pre>";
                         echo "<pre>{$query}</pre>";
                     }
                 } else {
@@ -44,7 +43,7 @@
     <body>
         <header>
             <div class="navbar navbar-default navbar-fixed-top">
-                <div class="navbar-brand">PhpCrudApp - Content</div>
+                <div class="navbar-brand">BookCrud - Signup</div>
             </div>
         </header>
         <section>
@@ -57,7 +56,7 @@
                 </div>
 
                 <div class="col-sm-5 form" >    
-                    <form class="form-horizontal" action="new-user.php" method="post">
+                    <form class="form-horizontal" action="signup.php" method="post">
                       <fieldset>
                         <legend>Signup</legend>
                         <div class="form-group">

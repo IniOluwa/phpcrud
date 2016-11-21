@@ -132,7 +132,7 @@
                     <div class="form-group">
                         <label for="" class="col-lg-2 control-label">Page's book</label>
                         <div class="col-xs-1">
-                            <input type="number" name="page_book_id" min="1" max="<?php $books = mysqli_fetch_array(get_all_books()); echo count($books)-1;?>" value="<?php echo $the_selected_page['book_id']; ?>">
+                            <input type="number" name="page_book_id" min="1" max="<?php $books = mysqli_fetch_array(get_all_books()); echo count($books);?>" value="<?php echo $the_selected_page['book_id']; ?>">
                         </div>
                     </div>
 

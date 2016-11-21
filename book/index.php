@@ -21,6 +21,14 @@
                 <div class="navbar-header">
                     <a class="navbar-brand" href="#">BookCrud</a>
                 </div>
+                <ul class="nav navbar-nav navbar-right">
+                    <?php
+                        if (logged_in()) {
+                            echo "<li><a href=\"#\"><span class=\"glyphicon glyphicon-user\"></span> {$_SESSION['username']} </a></li>";
+                            echo "<li><a href=\"logout.php\"><span class=\"glyphicon glyphicon-log-out\"></span> Logout</a></li>";
+                        }
+                    ?>
+                </ul>
             </div>
         </nav>
     </header>

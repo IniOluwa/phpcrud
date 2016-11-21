@@ -61,7 +61,7 @@
     <body>
         <header>
             <div class="navbar navbar-default navbar-fixed-top">
-                <div class="navbar-brand">PhpCrudApp - Content</div>
+                <div class="navbar-brand">BookCrud - Login</div>
             </div>
         </header>
         <section>
