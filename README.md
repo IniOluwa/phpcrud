@@ -25,3 +25,11 @@
     - book/login.php
 - View contents for management
     - book/view_contents.php
+
+#### __Connecting to the database__ :+1:
+- Create a _constants.php_ file in includes/
+- Create your constants in this format
+    - define("DB_SERVER", "your_server");
+    - define("DB_USER", "your_user_name");
+    - define("DB_PASSWORD", "your_password);
+    - define("DB_NAME", "bookcrud_db");
