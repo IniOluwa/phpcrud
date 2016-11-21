@@ -82,21 +82,21 @@
                     <div class="form-group">
                         <label for="" class="col-lg-2 control-label">Page's book</label>
                         <div class="col-xs-1">
-                            <input type="number" name="page_book_id" min="1" max="<?php $books = mysqli_fetch_array(get_all_books()); echo count($books)-1;?>">
+                            <input type="number" name="page_book_id" min="1" max="<?php $books = mysqli_fetch_array(get_all_books()); echo count($books);?>">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div class="col-lg-10 col-lg-offset-2">
                             <button type="reset" class="btn btn-default"><a href="view_contents.php" />Cancel</a></button>
-                            <button type="submit" class="btn btn-primary">Add book</button>
+                            <button type="submit" class="btn btn-primary">Add book page</button>
                         </div>
                     </div>
                   </fieldset>
                 </form>
             </div>
                 <?php 
-                # code...
+                # Not in use yet
                 while ($books_list = mysqli_fetch_array(get_all_books())) {
                     # code...
                     if (count($books_list) == count($books)) {
